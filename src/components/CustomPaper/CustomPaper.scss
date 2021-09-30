@@ -1,0 +1,32 @@
+.customPaper {
+  flex: 1 1 100%;
+  min-height: 300px;
+
+  h1{
+      padding-left: 12px;
+      margin: 8px 0;
+  }
+
+  .customInput{
+      margin: 0 16px;
+      width: 85%;
+  }
+
+  .MuiList-root{
+    height: 100%;
+  }
+}
+
+@media (min-width: 768px) {
+  .customPaper {
+    flex: 1 1 45%;
+    flex-wrap: wrap;
+    min-height: 350px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .customPaper {
+    min-height: 450px;
+  }
+}
