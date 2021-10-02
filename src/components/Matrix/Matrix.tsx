@@ -27,6 +27,7 @@ const defaultMatrix: MatrixType = {
 const Matrix: React.FC = () => {
   const path = sessionStorage.getItem('userUID') ?? undefined;
   const [lists, setLists] = useState<MatrixType>(defaultMatrix);
+  const [isDataLoaded, setIsDataLoaded] = useState(false);
 
   const addItem = (tableCode: TableCodeType) => (newItem: string) => {
     setLists(prev => {
@@ -54,6 +55,7 @@ const Matrix: React.FC = () => {
       if (value) {
         setLists(value as MatrixType);
       }
+      setIsDataLoaded(true);
     });
   }, [path]);
 
@@ -107,6 +109,7 @@ const Matrix: React.FC = () => {
             index={key}
             title={title}
             color={color}
+            loading={!isDataLoaded}
             list={lists[key.toString() as TableCodeType]}
             onSetList={addItem(key.toString() as TableCodeType)}
             onRemoveItem={removeItem(key.toString() as TableCodeType)}

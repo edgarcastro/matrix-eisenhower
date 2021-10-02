@@ -68,7 +68,7 @@ const SignUpForm: React.FC<SignUpFormProps> = ({ classes, onSubmit }) => {
         variant="contained"
         color="primary"
         className={classes.submit}>
-        Sign In
+        Sign Up
       </Button>
     </form>
   );
