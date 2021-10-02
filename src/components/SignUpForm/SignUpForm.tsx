@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Button, TextField } from '@material-ui/core';
-import { ClassNameMap } from '@material-ui/core/styles/withStyles';
+import { Button, TextField } from '@mui/material';
+import { ClassNameMap } from '@mui/styles';
 
 type requiredProps = {
   classes: ClassNameMap;

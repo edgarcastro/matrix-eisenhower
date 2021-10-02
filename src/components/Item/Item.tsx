@@ -5,8 +5,8 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListItemText,
-} from '@material-ui/core';
-import { ClearOutlined, DragHandle } from '@material-ui/icons';
+} from '@mui/material';
+import { ClearOutlined, DragHandle } from '@mui/icons-material';
 import React from 'react';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 
@@ -34,7 +34,7 @@ const Item: React.FC<ItemProps> = ({
           </ListItemIcon>
           <ListItemText primary={text} />
           <ListItemSecondaryAction onClick={() => onRemoveItem()}>
-            <IconButton edge="end" aria-label="delete">
+            <IconButton edge="end" aria-label="delete" size="large">
               <ClearOutlined />
             </IconButton>
           </ListItemSecondaryAction>

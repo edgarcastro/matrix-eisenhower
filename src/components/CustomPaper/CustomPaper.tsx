@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Paper, List, TextField } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
+import { Paper, List, TextField } from '@mui/material';
+import makeStyles from '@mui/styles/makeStyles';
 import { Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import Item from '../Item';
 import './CustomPaper.scss';

@@ -7,13 +7,13 @@ import {
   Grid,
   Paper,
   Typography,
-} from '@material-ui/core';
+} from '@mui/material';
 import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from '../../api';
 import { SignUpForm, SignInForm, Copyright } from '../../components';
-import { Lock } from '@material-ui/icons';
+import { Lock } from '@mui/icons-material';
 import { useStyles } from './Auth.hooks';
 
 const Auth: React.FC = () => {

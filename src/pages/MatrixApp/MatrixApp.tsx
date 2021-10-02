@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { AppBar, Toolbar, Typography, Button } from '@material-ui/core';
+import { AppBar, Toolbar, Typography, Button } from '@mui/material';
 import Matrix from '../../components/Matrix';
 import { signOut } from '../../api';
 import { APP_NAME } from '../../constants';
