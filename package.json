@@ -20,14 +20,15 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "concurrently 'yarn:start-*' --kill-others",
+    "start-web": "react-scripts start",
+    "start-emulators": "firebase emulators:start",
     "build": "react-scripts build",
     "test": "react-scripts test --watchAll=false",
     "test:ci": "CI=true react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.{ts,tsx}",
-    "prettier": "prettier --check src/**/*.{ts,tsx}",
-    "start:emulators": "firebase emulators:start"
+    "prettier": "prettier --check src/**/*.{ts,tsx}"
   },
   "eslintConfig": {
     "extends": [
@@ -59,6 +60,7 @@
     "@typescript-eslint/parser": "^4.31.1",
     "chai": "^4.3.4",
     "chai-enzyme": "^1.0.0-beta.1",
+    "concurrently": "^6.3.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.6",
     "enzyme-to-json": "^3.6.2",
