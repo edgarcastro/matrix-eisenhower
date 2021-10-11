@@ -10,7 +10,7 @@ import { ClearOutlined, DragHandle } from '@mui/icons-material';
 import React from 'react';
 import { Draggable, DraggableProvided } from 'react-beautiful-dnd';
 
-type ItemProps = {
+export type ItemProps = {
   id: string;
   index: number;
   text: string;

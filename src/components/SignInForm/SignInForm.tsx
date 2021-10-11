@@ -7,7 +7,7 @@ interface requiredProps {
   onSubmit: (email: string, password: string) => void;
 }
 
-type SignInFormProps = requiredProps;
+export type SignInFormProps = requiredProps;
 
 const SignInForm: React.FC<SignInFormProps> = ({ classes, onSubmit }) => {
   const [email, setEmail] = useState('');

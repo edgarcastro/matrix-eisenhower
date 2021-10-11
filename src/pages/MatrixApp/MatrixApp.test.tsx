@@ -1,12 +1,17 @@
 import React from 'react';
 import MatrixApp from './MatrixApp';
-import { shallow } from 'enzyme';
 import { AppProvider } from '../../context';
+import { render } from '@testing-library/react';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
 
 function renderMatrixApp() {
-  return shallow(
+  const theme = createTheme();
+
+  return render(
     <AppProvider>
-      <MatrixApp />
+      <ThemeProvider theme={theme}>
+        <MatrixApp />
+      </ThemeProvider>
     </AppProvider>
   );
 }

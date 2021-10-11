@@ -5,7 +5,7 @@ import { getDatabase, connectDatabaseEmulator } from 'firebase/database';
 
 const {
   REACT_APP_FB_ANALYTICS_ENABLED: analyticsEnabled,
-  REACT_APP_ENVIRONMENT: environment,
+  REACT_APP_EMULATORS_ENABLED: emulatorsEnabled,
 } = process.env;
 
 const getConfig: FirebaseOptions = {
@@ -31,7 +31,8 @@ if (analyticsEnabled) {
 
 const database = getDatabase(app);
 
-if (environment !== 'production') {
+console.log(emulatorsEnabled);
+if (emulatorsEnabled === 'true') {
   connectAuthEmulator(auth, 'http://localhost:9099');
   connectDatabaseEmulator(database, 'localhost', 9000);
 }

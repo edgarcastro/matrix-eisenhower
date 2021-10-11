@@ -5,7 +5,7 @@ import { Droppable, DroppableProvided } from 'react-beautiful-dnd';
 import Item from '../Item';
 import './CustomPaper.scss';
 
-interface CustomPaperProps {
+export interface CustomPaperProps {
   index: number;
   title: string;
   list?: Array<string>;

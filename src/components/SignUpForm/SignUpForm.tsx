@@ -1,67 +1,110 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Button, TextField } from '@mui/material';
+import { useForm, Controller, SubmitHandler } from 'react-hook-form';
 import { ClassNameMap } from '@mui/styles';
-
-type requiredProps = {
+interface RequiredProps {
   classes: ClassNameMap;
   onSubmit: (email: string, password: string) => void;
-};
+}
 
-type SignUpFormProps = requiredProps;
+export type SignUpFormProps = RequiredProps;
 
-const SignUpForm: React.FC<SignUpFormProps> = ({ classes, onSubmit }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+interface IFormInput {
+  email: string;
+  confirmEmail: string;
+  password: string;
+}
 
-  const onSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    onSubmit(email, password);
+export const SignUpForm: React.FC<SignUpFormProps> = props => {
+  const {
+    control,
+    formState: { errors },
+    getValues,
+    handleSubmit,
+  } = useForm<IFormInput>();
+
+  const onSubmit: SubmitHandler<IFormInput> = data => {
+    props.onSubmit(data.email, data.password);
   };
+
+  const { classes } = props;
 
   return (
     <form
       data-testid="signup-form"
       className={classes.form}
-      noValidate
-      onSubmit={e => onSignUp(e)}>
-      <TextField
-        tabIndex={0}
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        id="email"
-        label="Email Address"
+      onSubmit={handleSubmit(onSubmit)}>
+      <Controller
         name="email"
-        autoComplete="email"
-        autoFocus
-        value={email}
-        onChange={e => setEmail(e.target.value)}
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <TextField
+            {...field}
+            variant="outlined"
+            margin="dense"
+            required
+            fullWidth
+            id="email"
+            data-testid="signup-email-input"
+            label="Email Address"
+            type="email"
+            autoComplete="email"
+            autoFocus
+            helperText=" "
+          />
+        )}
       />
-      <TextField
-        tabIndex={0}
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
-        id="confirmEmail"
-        label="Confirm Email Address"
+
+      <Controller
         name="confirmEmail"
+        control={control}
+        defaultValue=""
+        rules={{
+          validate: value =>
+            value.toLowerCase() === getValues('email').toLowerCase(),
+        }}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            variant="outlined"
+            margin="dense"
+            required
+            fullWidth
+            id="confirmEmail"
+            data-testid="signup-confirm-email-input"
+            label="Confirm Email Address"
+            type="email"
+            error={!!errors.confirmEmail}
+            helperText={
+              !errors.confirmEmail ? ' ' : 'The email are not the same'
+            }
+            autoComplete="off"
+          />
+        )}
       />
-      <TextField
-        tabIndex={0}
-        variant="outlined"
-        margin="normal"
-        required
-        fullWidth
+
+      <Controller
         name="password"
-        label="Password"
-        type="password"
-        id="password"
-        autoComplete="current-password"
-        value={password}
-        onChange={e => setPassword(e.target.value)}
+        control={control}
+        defaultValue=""
+        render={({ field }) => (
+          <TextField
+            {...field}
+            variant="outlined"
+            margin="dense"
+            required
+            fullWidth
+            label="Password"
+            type="password"
+            id="password"
+            data-testid="signup-password-input"
+            autoComplete="current-password"
+            helperText=" "
+          />
+        )}
       />
+
       <Button
         type="submit"
         fullWidth
