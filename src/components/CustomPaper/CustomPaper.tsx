@@ -63,7 +63,7 @@ const CustomPaper: React.FC<CustomPaperProps> = ({
         value={input}
         onKeyDown={onKeyChange}
         onChange={onChange}
-        placeholder={'Agrega un nuevo elemento aqui...'}
+        placeholder={'Add new elements here...'}
       />
       <Droppable droppableId={`${index}`}>
         {(provided: DroppableProvided) => (

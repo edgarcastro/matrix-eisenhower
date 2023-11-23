@@ -2,17 +2,23 @@
   flex: 1 1 100%;
   min-height: 300px;
 
-  h1{
-      padding-left: 12px;
-      margin: 8px 0;
+  h1 {
+    padding-left: 12px;
+    margin: 8px 0;
   }
 
-  .customInput{
-      margin: 0 16px;
-      width: 85%;
+  .customInput {
+    padding: 0 16px;
+    width: 90%;
+
+    .MuiOutlinedInput-notchedOutline {
+      border-left: none;
+      border-top: none;
+      border-right: none;
+    }
   }
 
-  .MuiList-root{
+  .MuiList-root {
     height: 100%;
   }
 }

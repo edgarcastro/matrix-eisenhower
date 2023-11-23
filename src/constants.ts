@@ -1,8 +1,8 @@
-export const APP_NAME = 'MATRIX_EISENHOWER';
+export const APP_NAME = 'MATRIX EISENHOWER';
 export const MATRIX_EISENHOWER = [
   {
     key: 1,
-    title: 'Do first',
+    title: 'Do first!',
     color: '#A4C942',
   },
   {
@@ -17,7 +17,7 @@ export const MATRIX_EISENHOWER = [
   },
   {
     key: 4,
-    title: 'Do not do',
+    title: 'Do not do!!',
     color: '#BB2C22',
   },
 ];
