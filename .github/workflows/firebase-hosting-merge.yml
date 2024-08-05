@@ -33,6 +33,8 @@ jobs:
           FB_PROJECT_ID: ${{ secrets.FB_PROJECT_ID }}
           FB_APP_ID: ${{ secrets.FB_APP_ID }}
           FB_MEASUREMENT_ID: ${{ secrets.FB_MEASUREMENT_ID }}
+      - name: Enable Corepack
+        run: corepack enable
       - run: yarn && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
