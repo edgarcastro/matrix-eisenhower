@@ -4,17 +4,17 @@ import { getAuth, connectAuthEmulator } from 'firebase/auth';
 import { getDatabase, connectDatabaseEmulator } from 'firebase/database';
 
 const {
-  REACT_APP_FB_ANALYTICS_ENABLED: analyticsEnabled,
-  REACT_APP_EMULATORS_ENABLED: emulatorsEnabled,
-} = process.env;
+  VITE_FB_ANALYTICS_ENABLED: analyticsEnabled,
+  VITE_EMULATORS_ENABLED: emulatorsEnabled,
+} = import.meta.env;
 
 const getConfig: FirebaseOptions = {
-  apiKey: process.env.REACT_APP_FB_API_KEY || 'localKey',
-  authDomain: process.env.REACT_APP_FB_AUTH_DOMAIN,
-  databaseURL: process.env.REACT_APP_FB_DATABASE_URL,
-  projectId: process.env.REACT_APP_FB_PROJECT_ID || 'localProjectId',
-  appId: process.env.REACT_APP_FB_APP_ID,
-  measurementId: process.env.REACT_APP_FB_MEASUREMENT_ID,
+  apiKey: import.meta.env.VITE_FB_API_KEY || 'localKey',
+  authDomain: import.meta.env.VITE_FB_AUTH_DOMAIN,
+  databaseURL: import.meta.env.VITE_FB_DATABASE_URL,
+  projectId: import.meta.env.VITE_FB_PROJECT_ID || 'localProjectId',
+  appId: import.meta.env.VITE_FB_APP_ID,
+  measurementId: import.meta.env.VITE_FB_MEASUREMENT_ID,
 };
 
 const app = initializeApp(getConfig);
