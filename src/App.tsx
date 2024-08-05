@@ -1,12 +1,11 @@
-import React, { useState, useContext } from 'react';
 import './App.scss';
-import { Auth, MatrixApp } from './pages';
-import { auth } from './firebase';
-import { AppContext } from './context';
-import { LoadingPage } from './pages/LoadingPage';
+import { MainPage } from './pages';
+//import { auth } from './firebase';
+//import { AppContext } from './context';
+//import { LoadingPage } from './pages/LoadingPage';
 
-const App: React.FC = () => {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+const App = () => {
+  /* const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const { setEmail, setDisplayName } = useContext(AppContext);
 
@@ -24,7 +23,8 @@ const App: React.FC = () => {
 
   if (!isDataLoaded) return <LoadingPage />;
 
-  return isAuthenticated ? <MatrixApp /> : <Auth />;
+  return isAuthenticated ? <MatrixApp /> : <Auth />; */
+  return <MainPage />;
 };
 
 export default App;
