@@ -21,7 +21,11 @@ const defaultValue: ContextModel = {
 export const AppContext: React.Context<ContextModel> =
   React.createContext(defaultValue);
 
-export const AppProvider: React.FC = ({ children }) => {
+type AppProviderProps = {
+  children: React.ReactNode;
+};
+
+export const AppProvider: React.FC<AppProviderProps> = ({ children }) => {
   const [email, setEmail] = useState<string | undefined | null>('');
   const [displayName, setDisplayName] = useState<string | undefined | null>('');
 

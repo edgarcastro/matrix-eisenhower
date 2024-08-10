@@ -1,4 +1,3 @@
-import React from 'react';
 import SingUpForm, { SignUpFormProps } from './SignUpForm';
 import { render, waitFor, act, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';

@@ -1,4 +1,3 @@
-import React from 'react';
 import Copyright from './Copyright';
 import { shallow } from 'enzyme';
 
