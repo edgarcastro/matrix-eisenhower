@@ -2,94 +2,16 @@
   "name": "matrix-eisenhower",
   "version": "0.1.0",
   "private": true,
-  "type": "module",
-  "dependencies": {
-    "@mui/icons-material": "5.0.1",
-    "@mui/material": "5.0.2",
-    "@mui/styles": "5.0.1",
-    "firebase": "10.9.0",
-    "react": "18.3.1",
-    "react-beautiful-dnd": "13.1.0",
-    "react-dom": "18.3.1",
-    "react-hook-form": "7.52.2",
-    "sass": "1.37.5"
-  },
   "scripts": {
-    "start": "concurrently 'yarn:start-*' --kill-others",
-    "start-web": "cross-env VITE_EMULATORS_ENABLED=true vite",
-    "start-emulators": "firebase emulators:start",
-    "build": "tsc -b && vite build",
-    "test": "jest",
-    "test:ci": "CI=true react-scripts test",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview",
-    "prettier": "prettier --check src/**/*.{ts,tsx}",
-    "prettier:fix": "prettier --write src/**/*.{ts,tsx}"
+    "dev": "next dev --turbopack",
+    "build": "next build --turbopack",
+    "start": "next start"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
-    ]
+  "dependencies": {
+    "firebase": "12.2.1",
+    "next": "15.5.3",
+    "react": "19.1.0",
+    "react-dom": "19.1.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.2%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
-  "devDependencies": {
-    "@firebase/rules-unit-testing": "2.0.0",
-    "@testing-library/dom": "8.7.2",
-    "@testing-library/jest-dom": "5.14.1",
-    "@testing-library/react": "12.0.0",
-    "@testing-library/user-event": "13.2.1",
-    "@types/chai-enzyme": "0.6.8",
-    "@types/enzyme": "3.10.9",
-    "@types/enzyme-adapter-react-16": "1.0.6",
-    "@types/jest": "27.0.1",
-    "@types/react": "18.3.3",
-    "@types/react-beautiful-dnd": "13.1.1",
-    "@types/react-dom": "18.3.0",
-    "@typescript-eslint/eslint-plugin": "7.15.0",
-    "@typescript-eslint/parser": "7.15.0",
-    "@vitejs/plugin-react": "4.3.1",
-    "chai": "4.3.4",
-    "chai-enzyme": "1.0.0-beta.1",
-    "concurrently": "6.3.0",
-    "cross-env": "7.0.3",
-    "enzyme": "3.11.0",
-    "enzyme-adapter-react-16": "1.15.6",
-    "enzyme-to-json": "3.6.2",
-    "eslint": "8.57.0",
-    "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-prettier": "4.0.0",
-    "eslint-plugin-react": "7.25.1",
-    "eslint-plugin-react-hooks": "4.6.2",
-    "eslint-plugin-react-refresh": "0.4.7",
-    "husky": "7.0.2",
-    "prettier": "2.4.1",
-    "ts-jest": "27.0.5",
-    "ts-node": "10.2.1",
-    "typescript": "5.2.2",
-    "vite": "5.3.4"
-  },
-  "jest": {
-    "snapshotSerializers": [
-      "enzyme-to-json/serializer"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn run lint",
-      "pre-push": "yarn test"
-    }
-  },
-  "packageManager": "yarn@4.4.0"
+  "packageManager": "yarn@4.9.4"
 }

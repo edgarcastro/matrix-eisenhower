@@ -3,22 +3,11 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "site": "metis-57c1f",
     "public": "build",
-    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"]
-  },
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "database": {
-      "port": 9000
-    },
-    "hosting": {
-      "port": 5050
-    },
-    "ui": {
-      "enabled": true
-    }
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ]
   }
 }
