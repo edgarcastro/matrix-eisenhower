@@ -10,7 +10,7 @@ export type List = {
   urgent: boolean;
   important: boolean;
   color: string;
-  items: ListItem[];
+  items?: ListItem[];
 };
 
 export type EisenhowerList = List[];

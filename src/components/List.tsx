@@ -12,6 +12,7 @@ interface ListProps {
   items: ListItem[];
   onCompleteChange: (id: string) => void;
   onAddItem: (text: string) => void;
+  onRemoveItem: (id: string) => void;
 }
 
 const List = ({
@@ -21,6 +22,7 @@ const List = ({
   items,
   onCompleteChange,
   onAddItem,
+  onRemoveItem,
 }: ListProps) => {
   const ListRef = useRef<HTMLDivElement>(null);
   const [isDraggedOver, setIsDraggedOver] = useState(false);
@@ -73,6 +75,7 @@ const List = ({
             item={item}
             listId={id}
             onCompleteChange={onCompleteChange}
+            onRemoveItem={onRemoveItem}
           />
         ))}
       </div>

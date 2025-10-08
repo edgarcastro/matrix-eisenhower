@@ -4,14 +4,22 @@ import { useEffect, useRef, useState } from "react";
 import invariant from "tiny-invariant";
 import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import clsx from "clsx";
+import { Button } from "./ui/button";
+import { TrashIcon } from "lucide-react";
 
 interface ListItemProps {
   item: ListItemType;
   listId: string;
   onCompleteChange: (itemId: string) => void;
+  onRemoveItem: (itemId: string) => void;
 }
 
-const ListItem = ({ item, listId, onCompleteChange }: ListItemProps) => {
+const ListItem = ({
+  item,
+  listId,
+  onCompleteChange,
+  onRemoveItem,
+}: ListItemProps) => {
   const listItemRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   useEffect(() => {
@@ -36,8 +44,17 @@ const ListItem = ({ item, listId, onCompleteChange }: ListItemProps) => {
       <Checkbox
         checked={item.completed}
         onCheckedChange={() => onCompleteChange(item.id)}
+        id={`${listId}-${item.id}-checkbox`}
       />
-      <p>{item.text}</p>
+      <label htmlFor={`${listId}-${item.id}-checkbox`}>{item.text}</label>
+      <Button
+        className="ml-auto"
+        variant="ghost"
+        size="icon"
+        onClick={() => onRemoveItem(item.id)}
+      >
+        <TrashIcon className="w-4 h-4" />
+      </Button>
     </div>
   );
 };

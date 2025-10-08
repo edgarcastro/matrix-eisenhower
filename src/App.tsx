@@ -1,10 +1,12 @@
 import List from "./components/List";
-import { EisenhowerList } from "./types";
+import { EisenhowerList, ListItem } from "./types";
 import React, { useEffect } from "react";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
+import { writeEisenhowerList, readEisenhowerList } from "./api";
 
+const userId = "123";
 const generateId = () => {
   return (
     Math.random().toString(36).substring(2, 15) +
@@ -12,21 +14,13 @@ const generateId = () => {
   );
 };
 
-const generateMockItems = () => {
-  return Array.from({ length: 3 }, () => ({
-    id: generateId(),
-    text: `Item ${generateId()}`,
-    completed: false,
-  }));
-};
-
-const EisenhowerLists: EisenhowerList = [
+const initialLists: EisenhowerList = [
   {
     id: "1",
     title: "Urgent and Important",
     urgent: true,
     important: true,
-    items: generateMockItems(),
+    items: [] as ListItem[],
     color: "#E74C3C",
     // dark red #8B0000
   },
@@ -35,7 +29,7 @@ const EisenhowerLists: EisenhowerList = [
     title: "Urgent and Not Important",
     urgent: true,
     important: false,
-    items: generateMockItems(),
+    items: [] as ListItem[],
     color: "#FFD700",
     // dark yellow #B38600
   },
@@ -44,7 +38,7 @@ const EisenhowerLists: EisenhowerList = [
     title: "Not Urgent and Important",
     urgent: false,
     important: true,
-    items: generateMockItems(),
+    items: [] as ListItem[],
     color: "#2ECC71",
     // dark green #008000
   },
@@ -53,14 +47,24 @@ const EisenhowerLists: EisenhowerList = [
     title: "Not Urgent and Not Important",
     urgent: false,
     important: false,
-    items: generateMockItems(),
+    items: [] as ListItem[],
     color: "#3498DB",
     // dark blue #000080
   },
 ];
 
 function App() {
-  const [lists, setLists] = React.useState<EisenhowerList>(EisenhowerLists);
+  const [lists, setLists] = React.useState<EisenhowerList>(initialLists);
+
+  useEffect(() => {
+    const fetchLists = async () => {
+      const { list } = await readEisenhowerList(userId);
+      if (list) {
+        setLists(list);
+      }
+    };
+    fetchLists();
+  }, []);
 
   useEffect(() => {
     return monitorForElements({
@@ -87,7 +91,7 @@ function App() {
     setLists((prevLists) => {
       const sourceItem = prevLists
         .find((list) => list.id === sourceListId)
-        ?.items.find((item) => item.id === sourceItemId);
+        ?.items?.find((item) => item.id === sourceItemId);
       if (!sourceItem) {
         return prevLists;
       }
@@ -97,50 +101,74 @@ function App() {
             ? list
             : {
                 ...list,
-                items: list.items.filter((item) => item.id !== sourceItemId),
+                items: list.items?.filter((item) => item.id !== sourceItemId),
               }
         )
         .map((list) =>
           list.id === destinationListId
-            ? { ...list, items: [...list.items, sourceItem] }
+            ? { ...list, items: [...(list.items || []), sourceItem] }
             : list
         );
+
+      writeEisenhowerList(userId, newLists);
 
       return newLists;
     });
   };
 
   const handleCompleteChange = (listId: string, itemId: string) => {
-    setLists((prevLists) =>
-      prevLists.map((list) =>
+    setLists((prevLists) => {
+      const newLists = prevLists.map((list) =>
         list.id === listId
           ? {
               ...list,
-              items: list.items.map((item) =>
+              items: list.items?.map((item) =>
                 item.id === itemId
                   ? { ...item, completed: !item.completed }
                   : item
               ),
             }
           : list
-      )
-    );
+      );
+
+      writeEisenhowerList(userId, newLists);
+
+      return newLists;
+    });
   };
 
   const handleAddItem = (listId: string, itemText: string) => {
-    setLists((prevLists) =>
-      prevLists.map((list) =>
+    setLists((prevLists) => {
+      const newLists = prevLists.map((list) =>
         list.id === listId
           ? {
               ...list,
               items: [
-                ...list.items,
+                ...(list.items || []),
                 { id: generateId(), text: itemText, completed: false },
               ],
             }
           : list
-      )
-    );
+      );
+
+      writeEisenhowerList(userId, newLists);
+
+      return newLists;
+    });
+  };
+
+  const handleRemoveItem = (listId: string, itemId: string) => {
+    setLists((prevLists) => {
+      const newLists = prevLists.map((list) =>
+        list.id === listId
+          ? { ...list, items: list.items?.filter((item) => item.id !== itemId) }
+          : list
+      );
+
+      writeEisenhowerList(userId, newLists);
+
+      return newLists;
+    });
   };
 
   return (
@@ -151,11 +179,12 @@ function App() {
           <List
             key={list.id}
             id={list.id}
-            items={list.items}
+            items={list.items || []}
             name={list.title}
             color={list.color}
             onCompleteChange={(itemId) => handleCompleteChange(list.id, itemId)}
             onAddItem={(itemText) => handleAddItem(list.id, itemText)}
+            onRemoveItem={(itemId) => handleRemoveItem(list.id, itemId)}
           />
         ))}
       </div>
