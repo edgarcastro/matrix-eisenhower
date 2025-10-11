@@ -1,12 +1,13 @@
 import List from "./components/List";
-import { EisenhowerList, ListItem } from "./types";
+import { EisenhowerList } from "./types";
 import React, { useEffect } from "react";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { writeEisenhowerList, readEisenhowerList } from "./api";
+import { useAuth } from "./hooks/useAuth";
+import { auth } from "./firebase";
 
-const userId = "123";
 const generateId = () => {
   return (
     Math.random().toString(36).substring(2, 15) +
@@ -20,7 +21,6 @@ const initialLists: EisenhowerList = [
     title: "Urgent and Important",
     urgent: true,
     important: true,
-    items: [] as ListItem[],
     color: "#E74C3C",
     // dark red #8B0000
   },
@@ -29,7 +29,6 @@ const initialLists: EisenhowerList = [
     title: "Urgent and Not Important",
     urgent: true,
     important: false,
-    items: [] as ListItem[],
     color: "#FFD700",
     // dark yellow #B38600
   },
@@ -38,7 +37,6 @@ const initialLists: EisenhowerList = [
     title: "Not Urgent and Important",
     urgent: false,
     important: true,
-    items: [] as ListItem[],
     color: "#2ECC71",
     // dark green #008000
   },
@@ -47,7 +45,6 @@ const initialLists: EisenhowerList = [
     title: "Not Urgent and Not Important",
     urgent: false,
     important: false,
-    items: [] as ListItem[],
     color: "#3498DB",
     // dark blue #000080
   },
@@ -55,16 +52,29 @@ const initialLists: EisenhowerList = [
 
 function App() {
   const [lists, setLists] = React.useState<EisenhowerList>(initialLists);
+  const { isAuthenticated } = useAuth();
+
+  const handleWriteLists = (lists: EisenhowerList) => {
+    if (isAuthenticated) {
+      const userId = auth.currentUser!.uid;
+      writeEisenhowerList(userId, lists);
+    }
+  };
 
   useEffect(() => {
     const fetchLists = async () => {
+      if (!isAuthenticated) {
+        setLists(initialLists);
+        return;
+      }
+      const userId = auth.currentUser!.uid;
       const { list } = await readEisenhowerList(userId);
       if (list) {
         setLists(list);
       }
     };
     fetchLists();
-  }, []);
+  }, [isAuthenticated]);
 
   useEffect(() => {
     return monitorForElements({
@@ -110,7 +120,7 @@ function App() {
             : list
         );
 
-      writeEisenhowerList(userId, newLists);
+      handleWriteLists(newLists);
 
       return newLists;
     });
@@ -131,7 +141,7 @@ function App() {
           : list
       );
 
-      writeEisenhowerList(userId, newLists);
+      handleWriteLists(newLists);
 
       return newLists;
     });
@@ -151,7 +161,7 @@ function App() {
           : list
       );
 
-      writeEisenhowerList(userId, newLists);
+      handleWriteLists(newLists);
 
       return newLists;
     });
@@ -165,7 +175,7 @@ function App() {
           : list
       );
 
-      writeEisenhowerList(userId, newLists);
+      handleWriteLists(newLists);
 
       return newLists;
     });

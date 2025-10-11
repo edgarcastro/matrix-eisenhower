@@ -38,17 +38,23 @@ const ListItem = ({
   }, [listId, item.id]);
   return (
     <div
-      className={clsx("flex items-center gap-2", isDragging && "opacity-50")}
+      className={clsx("flex items-center", isDragging && "opacity-50")}
       ref={listItemRef}
     >
       <Checkbox
+        className="cursor-pointer"
         checked={item.completed}
         onCheckedChange={() => onCompleteChange(item.id)}
         id={`${listId}-${item.id}-checkbox`}
       />
-      <label htmlFor={`${listId}-${item.id}-checkbox`}>{item.text}</label>
+      <label
+        className="pl-2 cursor-pointer"
+        htmlFor={`${listId}-${item.id}-checkbox`}
+      >
+        {item.text}
+      </label>
       <Button
-        className="ml-auto"
+        className="ml-auto cursor-pointer"
         variant="ghost"
         size="icon"
         onClick={() => onRemoveItem(item.id)}

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import invariant from "tiny-invariant";
 import clsx from "clsx";
+import { Input } from "./ui/input";
 
 interface ListProps {
   name: string;
@@ -63,10 +64,12 @@ const List = ({
       ref={ListRef}
     >
       <h2 className="text-2xl font-bold text-center">{name}</h2>
-      <input
+      <Input
+        className="border-gray-500 placeholder:text-gray-500 bg-white"
         type="text"
         placeholder="Add a new item"
         onKeyDown={handleAddItem}
+        name={`add-item-input-${id}`}
       />
       <div className={clsx("flex flex-col gap-2")}>
         {items.map((item) => (
