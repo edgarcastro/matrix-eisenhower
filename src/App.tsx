@@ -1,19 +1,13 @@
-import List from "./components/List";
-import { EisenhowerList } from "./types";
-import React, { useEffect } from "react";
 import { monitorForElements } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
-import Navbar from "./components/Navbar";
+import React, { useEffect } from "react";
+import { v4 as uuidv4 } from "uuid";
+import { readEisenhowerList, writeEisenhowerList } from "./api";
 import Footer from "./components/Footer";
-import { writeEisenhowerList, readEisenhowerList } from "./api";
-import { useAuth } from "./hooks/useAuth";
+import ListComponent from "./components/List";
+import Navbar from "./components/Navbar";
 import { auth } from "./firebase";
-
-const generateId = () => {
-  return (
-    Math.random().toString(36).substring(2, 15) +
-    Math.random().toString(36).substring(2, 15)
-  );
-};
+import { useAuth } from "./hooks/useAuth";
+import { EisenhowerList, List } from "./types";
 
 const initialLists: EisenhowerList = [
   {
@@ -68,14 +62,27 @@ function App() {
   useEffect(() => {
     const fetchLists = async () => {
       if (!isAuthenticated) {
-        setLists(initialLists);
         return;
       }
       const userId = auth.currentUser!.uid;
       const listValue = await readEisenhowerList(userId);
       const list = listValue?.list;
       if (list) {
-        setLists(list);
+        setLists((prevLists) => {
+          return prevLists.map((prevList) => {
+            // update only items
+            const updated = list.find((l: List) => l.id === prevList.id);
+            if (updated && updated.items) {
+              return {
+                ...prevList,
+                items: updated.items,
+              };
+            }
+            return prevList;
+          });
+        });
+      } else {
+        writeEisenhowerList(userId, lists);
       }
     };
     fetchLists();
@@ -160,7 +167,7 @@ function App() {
               ...list,
               items: [
                 ...(list.items || []),
-                { id: generateId(), text: itemText, completed: false },
+                { id: uuidv4(), text: itemText, completed: false },
               ],
             }
           : list
@@ -191,7 +198,7 @@ function App() {
       <Navbar />
       <div className="grid grid-cols-1 sm:grid-cols-2 grid-rows-4 md:grid-rows-2 gap-2 flex-1 p-2">
         {lists.map((list) => (
-          <List
+          <ListComponent
             key={list.id}
             id={list.id}
             items={list.items || []}
