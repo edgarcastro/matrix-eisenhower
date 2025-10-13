@@ -9,7 +9,9 @@ export type List = {
   title: string;
   urgent: boolean;
   important: boolean;
-  color: string;
+  color?: string;
+  darkColor?: string;
+  styles: string;
   items?: ListItem[];
 };
 

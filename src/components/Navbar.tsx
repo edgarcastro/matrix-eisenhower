@@ -2,7 +2,6 @@ import { auth } from "@/firebase";
 import { useAuth } from "@/hooks/useAuth";
 import { Share } from "./Share";
 import { Login } from "./Login";
-import { SignUp } from "./SignUp";
 import { Button } from "./ui/button";
 import { LogOutIcon } from "lucide-react";
 
@@ -13,9 +12,10 @@ const Navbar = () => {
     <nav className="flex justify-between items-center p-2">
       {isPending && <div>Loading...</div>}
       {isAuthenticated && <div>Welcome {auth.currentUser?.email}</div>}
+      {!isAuthenticated && <div>Welcome Guest</div>}
       <div className="flex gap-2">
         {!isAuthenticated && <Login />}
-        {!isAuthenticated && <SignUp />}
+
         {isAuthenticated && (
           <Button onClick={() => auth.signOut()}>
             <LogOutIcon className="w-4 h-4" />

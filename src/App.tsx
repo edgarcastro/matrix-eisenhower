@@ -21,32 +21,36 @@ const initialLists: EisenhowerList = [
     title: "Urgent and Important",
     urgent: true,
     important: true,
-    color: "#E74C3C",
-    // dark red #8B0000
+    styles: "bg-red-500 dark:bg-red-900",
+    color: "#e74c3c",
+    darkColor: "#8b0000",
   },
   {
     id: "2",
     title: "Urgent and Not Important",
     urgent: true,
     important: false,
-    color: "#FFD700",
-    // dark yellow #B38600
+    styles: "bg-yellow-500 dark:bg-yellow-900",
+    color: "#ffd700",
+    darkColor: "#b38600",
   },
   {
     id: "3",
     title: "Not Urgent and Important",
     urgent: false,
     important: true,
-    color: "#2ECC71",
-    // dark green #008000
+    styles: "bg-green-500 dark:bg-green-900",
+    color: "#2ecc71",
+    darkColor: "#008000",
   },
   {
     id: "4",
     title: "Not Urgent and Not Important",
     urgent: false,
     important: false,
-    color: "#3498DB",
-    // dark blue #000080
+    styles: "bg-blue-500 dark:bg-blue-900",
+    color: "#3498db",
+    darkColor: "#000080",
   },
 ];
 
@@ -68,7 +72,8 @@ function App() {
         return;
       }
       const userId = auth.currentUser!.uid;
-      const { list } = await readEisenhowerList(userId);
+      const listValue = await readEisenhowerList(userId);
+      const list = listValue?.list;
       if (list) {
         setLists(list);
       }
@@ -191,7 +196,7 @@ function App() {
             id={list.id}
             items={list.items || []}
             name={list.title}
-            color={list.color}
+            styles={list.styles}
             onCompleteChange={(itemId) => handleCompleteChange(list.id, itemId)}
             onAddItem={(itemText) => handleAddItem(list.id, itemText)}
             onRemoveItem={(itemId) => handleRemoveItem(list.id, itemId)}

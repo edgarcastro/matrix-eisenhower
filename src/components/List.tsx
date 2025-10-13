@@ -9,7 +9,7 @@ import { Input } from "./ui/input";
 interface ListProps {
   name: string;
   id: string;
-  color: string;
+  styles: string;
   items: ListItem[];
   onCompleteChange: (id: string) => void;
   onAddItem: (text: string) => void;
@@ -19,7 +19,7 @@ interface ListProps {
 const List = ({
   id,
   name,
-  color,
+  styles,
   items,
   onCompleteChange,
   onAddItem,
@@ -57,10 +57,10 @@ const List = ({
   return (
     <div
       className={clsx(
-        "flex flex-col gap-2 p-2 rounded-md h-50%",
-        isDraggedOver && "opacity-50"
+        `flex flex-col gap-2 p-2 rounded-md h-50%`,
+        isDraggedOver && "opacity-50",
+        styles
       )}
-      style={{ backgroundColor: color }}
       ref={ListRef}
     >
       <h2 className="text-2xl font-bold text-center">{name}</h2>
