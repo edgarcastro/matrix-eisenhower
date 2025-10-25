@@ -1,11 +1,11 @@
 import { ListItem as ListItemType } from "@/types";
-import { Checkbox } from "./ui/checkbox";
-import { useEffect, useRef, useState } from "react";
-import invariant from "tiny-invariant";
 import { draggable } from "@atlaskit/pragmatic-drag-and-drop/element/adapter";
 import clsx from "clsx";
-import { Button } from "./ui/button";
 import { TrashIcon } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import invariant from "tiny-invariant";
+import { Button } from "./ui/button";
+import { Checkbox } from "./ui/checkbox";
 
 interface ListItemProps {
   item: ListItemType;
@@ -38,7 +38,10 @@ const ListItem = ({
   }, [listId, item.id]);
   return (
     <div
-      className={clsx("flex items-center", isDragging && "opacity-50")}
+      className={clsx(
+        "flex items-center",
+        isDragging && "opacity-50 p-2 rounded-md"
+      )}
       ref={listItemRef}
     >
       <Checkbox

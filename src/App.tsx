@@ -50,14 +50,18 @@ const initialLists: EisenhowerList = [
 
 function App() {
   const [lists, setLists] = React.useState<EisenhowerList>(initialLists);
+  const [listsLoaded, setListsLoaded] = React.useState(false);
   const { isAuthenticated } = useAuth();
 
-  const handleWriteLists = (lists: EisenhowerList) => {
-    if (isAuthenticated) {
-      const userId = auth.currentUser!.uid;
-      writeEisenhowerList(userId, lists);
-    }
-  };
+  const handleWriteLists = React.useCallback(
+    (lists: EisenhowerList) => {
+      if (isAuthenticated) {
+        const userId = auth.currentUser!.uid;
+        writeEisenhowerList(userId, lists);
+      }
+    },
+    [isAuthenticated]
+  );
 
   useEffect(() => {
     const fetchLists = async () => {
@@ -81,62 +85,48 @@ function App() {
             return prevList;
           });
         });
-      } else {
-        writeEisenhowerList(userId, lists);
       }
+      setListsLoaded(true);
     };
     fetchLists();
   }, [isAuthenticated]);
 
   useEffect(() => {
-    return monitorForElements({
-      onDrop({ source, location }) {
-        const destination = location.current.dropTargets[0];
-        if (!destination) {
-          // if dropped outside of any drop targets
-          return;
+    if (!listsLoaded) {
+      return;
+    }
+    handleWriteLists(lists);
+  }, [lists, handleWriteLists, listsLoaded]);
+
+  const handleMoveItem = React.useCallback(
+    (sourceListId: string, destinationListId: string, sourceItemId: string) => {
+      setLists((prevLists) => {
+        const sourceItem = prevLists
+          .find((list) => list.id === sourceListId)
+          ?.items?.find((item) => item.id === sourceItemId);
+        if (!sourceItem) {
+          return prevLists;
         }
-        const destinationListId = destination.data.listId as string;
-        const sourceListId = source.data.listId as string;
-        const sourceItemId = source.data.itemId as string;
+        const newLists = [...prevLists]
+          .map((list) =>
+            list.id !== sourceListId
+              ? list
+              : {
+                  ...list,
+                  items: list.items?.filter((item) => item.id !== sourceItemId),
+                }
+          )
+          .map((list) =>
+            list.id === destinationListId
+              ? { ...list, items: [...(list.items || []), sourceItem] }
+              : list
+          );
 
-        handleMoveItem(sourceListId, destinationListId, sourceItemId);
-      },
-    });
-  }, [lists]);
-
-  const handleMoveItem = (
-    sourceListId: string,
-    destinationListId: string,
-    sourceItemId: string
-  ) => {
-    setLists((prevLists) => {
-      const sourceItem = prevLists
-        .find((list) => list.id === sourceListId)
-        ?.items?.find((item) => item.id === sourceItemId);
-      if (!sourceItem) {
-        return prevLists;
-      }
-      const newLists = [...prevLists]
-        .map((list) =>
-          list.id !== sourceListId
-            ? list
-            : {
-                ...list,
-                items: list.items?.filter((item) => item.id !== sourceItemId),
-              }
-        )
-        .map((list) =>
-          list.id === destinationListId
-            ? { ...list, items: [...(list.items || []), sourceItem] }
-            : list
-        );
-
-      handleWriteLists(newLists);
-
-      return newLists;
-    });
-  };
+        return newLists;
+      });
+    },
+    []
+  );
 
   const handleCompleteChange = (listId: string, itemId: string) => {
     setLists((prevLists) => {
@@ -152,8 +142,6 @@ function App() {
             }
           : list
       );
-
-      handleWriteLists(newLists);
 
       return newLists;
     });
@@ -173,8 +161,6 @@ function App() {
           : list
       );
 
-      handleWriteLists(newLists);
-
       return newLists;
     });
   };
@@ -187,11 +173,26 @@ function App() {
           : list
       );
 
-      handleWriteLists(newLists);
-
       return newLists;
     });
   };
+
+  useEffect(() => {
+    return monitorForElements({
+      onDrop({ source, location }) {
+        const destination = location.current.dropTargets[0];
+        if (!destination) {
+          // if dropped outside of any drop targets
+          return;
+        }
+        const destinationListId = destination.data.listId as string;
+        const sourceListId = source.data.listId as string;
+        const sourceItemId = source.data.itemId as string;
+
+        handleMoveItem(sourceListId, destinationListId, sourceItemId);
+      },
+    });
+  }, [lists, handleMoveItem]);
 
   return (
     <div className="flex flex-col gap-2 h-screen">
@@ -204,6 +205,7 @@ function App() {
             items={list.items || []}
             name={list.title}
             styles={list.styles}
+            isLoading={!listsLoaded}
             onCompleteChange={(itemId) => handleCompleteChange(list.id, itemId)}
             onAddItem={(itemText) => handleAddItem(list.id, itemText)}
             onRemoveItem={(itemId) => handleRemoveItem(list.id, itemId)}

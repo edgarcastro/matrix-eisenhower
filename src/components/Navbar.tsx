@@ -1,9 +1,9 @@
 import { auth } from "@/firebase";
 import { useAuth } from "@/hooks/useAuth";
-import { Share } from "./Share";
-import { Login } from "./Login";
-import { Button } from "./ui/button";
 import { LogOutIcon } from "lucide-react";
+import { Login } from "./Login";
+import { Share } from "./Share";
+import { Button } from "./ui/button";
 
 const Navbar = () => {
   const { isAuthenticated, isPending } = useAuth();

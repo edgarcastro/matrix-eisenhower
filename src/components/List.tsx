@@ -5,12 +5,14 @@ import { dropTargetForElements } from "@atlaskit/pragmatic-drag-and-drop/element
 import invariant from "tiny-invariant";
 import clsx from "clsx";
 import { Input } from "./ui/input";
+import { Skeleton } from "./ui/skeleton";
 
 interface ListProps {
   name: string;
   id: string;
   styles: string;
   items: ListItem[];
+  isLoading: boolean;
   onCompleteChange: (id: string) => void;
   onAddItem: (text: string) => void;
   onRemoveItem: (id: string) => void;
@@ -24,6 +26,7 @@ const List = ({
   onCompleteChange,
   onAddItem,
   onRemoveItem,
+  isLoading,
 }: ListProps) => {
   const ListRef = useRef<HTMLDivElement>(null);
   const [isDraggedOver, setIsDraggedOver] = useState(false);
@@ -53,6 +56,27 @@ const List = ({
       }
     }
   };
+
+  if (isLoading) {
+    return (
+      <div
+        className={clsx(`flex flex-col gap-2 p-2 rounded-md h-50%`, styles)}
+        ref={ListRef}
+      >
+        <Skeleton className="h-8 w-3/4 mx-auto" />
+        <Skeleton className="h-10 w-full" />
+        <div className="flex flex-col gap-2">
+          {Array.from({ length: 3 }).map((_, index) => (
+            <div key={index} className="flex items-center gap-2">
+              <Skeleton className="h-4 w-4 rounded" />
+              <Skeleton className="h-4 flex-1" />
+              <Skeleton className="h-8 w-8 rounded" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div
