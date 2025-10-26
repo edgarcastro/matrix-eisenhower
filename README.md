@@ -43,19 +43,21 @@ This method helps you focus on what truly matters and avoid getting caught up in
 
 ### Prerequisites
 
-- Node.js (v16 or higher)
+- Node.js (v22 or higher)
 - Yarn package manager
 - Firebase account (for authentication and database)
 
 ### Installation
 
 1. Clone the repository:
+
 ```bash
-git clone <repository-url>
+git clone https://github.com/edgarcastro/matrix-eisenhower.git
 cd workspace
 ```
 
 2. Install dependencies:
+
 ```bash
 yarn install
 ```
@@ -68,33 +70,43 @@ yarn install
 ### Running the Application
 
 #### Development Mode
+
 ```bash
 yarn dev
 ```
+
 This will start the Vite development server on `http://localhost:5173`
 
 #### Development with Firebase Emulators
+
 ```bash
 yarn start
 ```
+
 This runs both the Vite dev server and Firebase emulators concurrently.
 
 #### Build for Production
+
 ```bash
 yarn build
 ```
+
 This compiles TypeScript and builds the production bundle to the `dist` folder.
 
 #### Preview Production Build
+
 ```bash
 yarn preview
 ```
+
 This serves the production build locally for testing.
 
 #### Lint Code
+
 ```bash
 yarn lint
 ```
+
 Runs ESLint to check code quality.
 
 ## 📁 Project Structure

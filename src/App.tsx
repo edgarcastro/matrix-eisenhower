@@ -66,6 +66,7 @@ function App() {
   useEffect(() => {
     const fetchLists = async () => {
       if (!isAuthenticated) {
+        setListsLoaded(true);
         return;
       }
       const userId = auth.currentUser!.uid;
