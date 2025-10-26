@@ -92,13 +92,6 @@ function App() {
     fetchLists();
   }, [isAuthenticated]);
 
-  useEffect(() => {
-    if (!listsLoaded) {
-      return;
-    }
-    handleWriteLists(lists);
-  }, [lists, handleWriteLists, listsLoaded]);
-
   const handleMoveItem = React.useCallback(
     (sourceListId: string, destinationListId: string, sourceItemId: string) => {
       setLists((prevLists) => {
@@ -123,10 +116,11 @@ function App() {
               : list
           );
 
+        handleWriteLists(newLists);
         return newLists;
       });
     },
-    []
+    [handleWriteLists]
   );
 
   const handleCompleteChange = (listId: string, itemId: string) => {
@@ -144,6 +138,7 @@ function App() {
           : list
       );
 
+      handleWriteLists(newLists);
       return newLists;
     });
   };
@@ -162,6 +157,7 @@ function App() {
           : list
       );
 
+      handleWriteLists(newLists);
       return newLists;
     });
   };
@@ -174,6 +170,7 @@ function App() {
           : list
       );
 
+      handleWriteLists(newLists);
       return newLists;
     });
   };
